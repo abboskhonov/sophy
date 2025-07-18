@@ -8,6 +8,10 @@ import { LessonParams } from '@/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
+function escapeQuotes(text: string): string {
+  return text.replace(/"/g, '\u201C') // replaces " with “
+}
+
 export default function LessonPage({ params }: { params: Promise<LessonParams> }) {
   const { slug } = use(params)
   const lesson = lessons.find((l) => l.slug === slug)
@@ -41,7 +45,7 @@ export default function LessonPage({ params }: { params: Promise<LessonParams> }
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        {lesson.description}
+        {escapeQuotes(lesson.description)}
       </motion.p>
 
       {[
@@ -61,7 +65,9 @@ export default function LessonPage({ params }: { params: Promise<LessonParams> }
             transition={{ delay: 0.4 + i * 0.1 }}
           >
             <h2 className="text-xl font-semibold text-black mb-3">{section.title}</h2>
-            <p className="text-gray-800 text-base leading-relaxed">{section.content}</p>
+            <p className="text-gray-800 text-base leading-relaxed">
+              {escapeQuotes(section.content)}
+            </p>
           </motion.section>
         ))}
 
@@ -75,7 +81,7 @@ export default function LessonPage({ params }: { params: Promise<LessonParams> }
           <h2 className="text-xl font-semibold text-black mb-3">Key Principles</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-800">
             {lesson.keyPrinciples.map((point, i) => (
-              <li key={i}>{point}</li>
+              <li key={i}>{escapeQuotes(point)}</li>
             ))}
           </ul>
         </motion.section>
@@ -97,7 +103,9 @@ export default function LessonPage({ params }: { params: Promise<LessonParams> }
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.3 + i * 0.1 }}
               >
-                <blockquote className="italic text-gray-700">"{quote}"</blockquote>
+                <blockquote className="italic text-gray-700">
+                  &ldquo;{escapeQuotes(quote)}&rdquo;
+                </blockquote>
               </motion.li>
             ))}
           </ul>
