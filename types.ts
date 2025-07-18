@@ -1,7 +1,4 @@
 export interface Lesson {
-  keyPrinciples: string[];
-  quotes?: string[]; // ✅ optional property
-  // add other properties like:
   slug: string;
   title: string;
   description: string;
@@ -13,4 +10,11 @@ export interface Lesson {
   practicalApplication: string;
   modernRelevance: string;
   reflection: string;
+  keyPrinciples: string[];
+  quotes?: string[]; // optional
 }
+
+
+export type LessonParams = {
+  slug: string;
+};
