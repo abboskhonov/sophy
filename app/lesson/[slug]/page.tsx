@@ -1,19 +1,17 @@
 'use client'
 
 import { notFound } from 'next/navigation'
-import { use } from 'react'
 import { lessons } from '@/data/lessons'
 import { LessonParams } from '@/types'
-
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 function escapeQuotes(text: string): string {
-  return text.replace(/"/g, '\u201C') // replaces " with “
+  return text.replace(/"/g, '\u201C')
 }
 
-export default function LessonPage({ params }: { params: Promise<LessonParams> }) {
-  const { slug } = use(params)
+export default function LessonPage({ params }: { params: LessonParams }) {
+  const { slug } = params
   const lesson = lessons.find((l) => l.slug === slug)
   if (!lesson) return notFound()
 
