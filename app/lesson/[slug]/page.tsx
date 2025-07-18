@@ -50,32 +50,36 @@ export default function LessonPage({ params }: { params: Promise<LessonParams> }
         { title: 'Practical Application', content: lesson.practicalApplication },
         { title: 'Modern Relevance', content: lesson.modernRelevance },
         { title: 'Reflection', content: lesson.reflection }
-      ].map((section, i) => (
+      ]
+        .filter(section => section.content)
+        .map((section, i) => (
+          <motion.section
+            key={section.title}
+            className="mb-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 + i * 0.1 }}
+          >
+            <h2 className="text-xl font-semibold text-black mb-3">{section.title}</h2>
+            <p className="text-gray-800 text-base leading-relaxed">{section.content}</p>
+          </motion.section>
+        ))}
+
+      {lesson.keyPrinciples?.length > 0 && (
         <motion.section
-          key={section.title}
           className="mb-8"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 + i * 0.1 }}
+          transition={{ delay: 1 }}
         >
-          <h2 className="text-xl font-semibold text-black mb-3">{section.title}</h2>
-          <p className="text-gray-800 text-base leading-relaxed">{section.content}</p>
+          <h2 className="text-xl font-semibold text-black mb-3">Key Principles</h2>
+          <ul className="list-disc pl-6 space-y-2 text-gray-800">
+            {lesson.keyPrinciples.map((point, i) => (
+              <li key={i}>{point}</li>
+            ))}
+          </ul>
         </motion.section>
-      ))}
-
-      <motion.section
-        className="mb-8"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
-      >
-        <h2 className="text-xl font-semibold text-black mb-3">Key Principles</h2>
-        <ul className="list-disc pl-6 space-y-2 text-gray-800">
-          {lesson.keyPrinciples.map((point, i) => (
-            <li key={i}>{point}</li>
-          ))}
-        </ul>
-      </motion.section>
+      )}
 
       {lesson.quotes?.length > 0 && (
         <motion.section
