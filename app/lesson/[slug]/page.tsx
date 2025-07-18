@@ -5,6 +5,10 @@ import { LessonParams } from '@/types';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
+function escapeQuotes(text: string): string {
+  return text.replace(/"/g, '\u201C'); // replaces " with "
+}
+
 interface PageProps {
   params: Promise<LessonParams>;
 }
@@ -13,9 +17,7 @@ export default async function LessonPage({ params }: PageProps) {
   const { slug } = await params;
   const lesson = lessons.find((l) => l.slug === slug);
 
-  if (!lesson) {
-    return notFound();
-  }
+  if (!lesson) return notFound();
 
   return (
     <motion.div
@@ -29,7 +31,6 @@ export default async function LessonPage({ params }: PageProps) {
           &lt; Back
         </Link>
       </div>
-
       <motion.h1
         className="text-4xl text-black font-bold mb-2"
         initial={{ opacity: 0, y: 10 }}
@@ -38,16 +39,14 @@ export default async function LessonPage({ params }: PageProps) {
       >
         {lesson.title}
       </motion.h1>
-
       <motion.p
         className="text-gray-600 text-lg mb-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        {lesson.description}
+        {escapeQuotes(lesson.description)}
       </motion.p>
-
       {[
         { title: 'Key Lesson', content: lesson.keyLesson },
         { title: 'Historical Context', content: lesson.historicalContext },
@@ -64,16 +63,13 @@ export default async function LessonPage({ params }: PageProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 + i * 0.1 }}
           >
-            <h2 className="text-xl font-semibold text-black mb-3">
-              {section.title}
-            </h2>
+            <h2 className="text-xl font-semibold text-black mb-3">{section.title}</h2>
             <p className="text-gray-800 text-base leading-relaxed">
-              {section.content}
+              {escapeQuotes(section.content)}
             </p>
           </motion.section>
         ))}
-
-      {lesson.keyPrinciples && lesson.keyPrinciples.length > 0 && (
+      {lesson.keyPrinciples?.length > 0 && (
         <motion.section
           className="mb-8"
           initial={{ opacity: 0, y: 10 }}
@@ -83,13 +79,12 @@ export default async function LessonPage({ params }: PageProps) {
           <h2 className="text-xl font-semibold text-black mb-3">Key Principles</h2>
           <ul className="list-disc pl-6 space-y-2 text-gray-800">
             {lesson.keyPrinciples.map((point, i) => (
-              <li key={i}>{point}</li>
+              <li key={i}>{escapeQuotes(point)}</li>
             ))}
           </ul>
         </motion.section>
       )}
-
-      {lesson.quotes && lesson.quotes.length > 0 && (
+      {lesson.quotes?.length > 0 && (
         <motion.section
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +101,7 @@ export default async function LessonPage({ params }: PageProps) {
                 transition={{ delay: 1.3 + i * 0.1 }}
               >
                 <blockquote className="italic text-gray-700">
-                  &ldquo;{quote}&rdquo;
+                  &ldquo;{escapeQuotes(quote)}&rdquo;
                 </blockquote>
               </motion.li>
             ))}
