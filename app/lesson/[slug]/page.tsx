@@ -1,4 +1,5 @@
 'use client';
+
 import { notFound } from 'next/navigation';
 import { lessons } from '@/data/lessons';
 import { LessonParams } from '@/types';
@@ -6,16 +7,15 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 function escapeQuotes(text: string): string {
-  return text.replace(/"/g, '\u201C'); // replaces " with "
+  return text.replace(/"/g, '\u201C');
 }
 
-interface PageProps {
-  params: Promise<LessonParams>;
-}
+type PageProps = {
+  params: LessonParams;
+};
 
-export default async function LessonPage({ params }: PageProps) {
-  const { slug } = await params;
-  const lesson = lessons.find((l) => l.slug === slug);
+export default function LessonPage({ params }: PageProps) {
+  const lesson = lessons.find((l) => l.slug === params.slug);
 
   if (!lesson) return notFound();
 
@@ -31,6 +31,7 @@ export default async function LessonPage({ params }: PageProps) {
           &lt; Back
         </Link>
       </div>
+
       <motion.h1
         className="text-4xl text-black font-bold mb-2"
         initial={{ opacity: 0, y: 10 }}
@@ -39,6 +40,7 @@ export default async function LessonPage({ params }: PageProps) {
       >
         {lesson.title}
       </motion.h1>
+
       <motion.p
         className="text-gray-600 text-lg mb-8"
         initial={{ opacity: 0 }}
@@ -47,6 +49,7 @@ export default async function LessonPage({ params }: PageProps) {
       >
         {escapeQuotes(lesson.description)}
       </motion.p>
+
       {[
         { title: 'Key Lesson', content: lesson.keyLesson },
         { title: 'Historical Context', content: lesson.historicalContext },
@@ -69,7 +72,8 @@ export default async function LessonPage({ params }: PageProps) {
             </p>
           </motion.section>
         ))}
-      {lesson.keyPrinciples?.length > 0 && (
+
+      {lesson.keyPrinciples.length > 0 && (
         <motion.section
           className="mb-8"
           initial={{ opacity: 0, y: 10 }}
@@ -84,7 +88,8 @@ export default async function LessonPage({ params }: PageProps) {
           </ul>
         </motion.section>
       )}
-      {lesson.quotes?.length > 0 && (
+
+      {lesson.quotes && lesson.quotes.length > 0 && (
         <motion.section
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

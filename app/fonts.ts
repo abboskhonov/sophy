@@ -1,9 +1,19 @@
-// app/fonts.ts (or inside your layout.tsx/page.tsx)
+export interface Lesson {
+  slug: string;
+  title: string;
+  description: string;
+  background: string;
+  famousQuote: string;
+  philosopher: string;
+  keyLesson: string;
+  historicalContext: string;
+  practicalApplication: string;
+  modernRelevance: string;
+  reflection: string;
+  keyPrinciples: string[];
+  quotes?: string[];
+}
 
-import { Inter } from 'next/font/google';
-
-export const inter = Inter({
-  subsets: ['latin'], // or ['latin-ext'] etc.
-  weight: ['400', '700'], // optional
-  display: 'swap', // recommended
-});
+export type LessonParams = {
+  slug: string;
+};
