@@ -1,19 +1,19 @@
-'use client'
+'use client';
 
-import { notFound } from 'next/navigation'
-import { lessons } from '@/data/lessons'
-import { LessonParams } from '@/types'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { notFound } from 'next/navigation';
+import { lessons } from '@/data/lessons';
+import { LessonParams } from '@/types';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 function escapeQuotes(text: string): string {
-  return text.replace(/"/g, '\u201C')
+  return text.replace(/"/g, '\u201C'); // replaces " with “
 }
 
 export default function LessonPage({ params }: { params: LessonParams }) {
-  const { slug } = params
-  const lesson = lessons.find((l) => l.slug === slug)
-  if (!lesson) return notFound()
+  const { slug } = params;
+  const lesson = lessons.find((l) => l.slug === slug);
+  if (!lesson) return notFound();
 
   return (
     <motion.div
@@ -51,9 +51,9 @@ export default function LessonPage({ params }: { params: LessonParams }) {
         { title: 'Historical Context', content: lesson.historicalContext },
         { title: 'Practical Application', content: lesson.practicalApplication },
         { title: 'Modern Relevance', content: lesson.modernRelevance },
-        { title: 'Reflection', content: lesson.reflection }
+        { title: 'Reflection', content: lesson.reflection },
       ]
-        .filter(section => section.content)
+        .filter((section) => section.content)
         .map((section, i) => (
           <motion.section
             key={section.title}
@@ -110,5 +110,5 @@ export default function LessonPage({ params }: { params: LessonParams }) {
         </motion.section>
       )}
     </motion.div>
-  )
+  );
 }
