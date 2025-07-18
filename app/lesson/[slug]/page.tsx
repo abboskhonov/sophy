@@ -8,12 +8,20 @@ import Link from 'next/link';
 
 function escapeQuotes(text: string): string {
   return text.replace(/"/g, '\u201C'); // replaces " with “
+
+
 }
+
+  type PageProps = {
+  params: LessonParams;
+};
 
 export default function LessonPage({ params }: { params: LessonParams }) {
   const { slug } = params;
   const lesson = lessons.find((l) => l.slug === slug);
   if (!lesson) return notFound();
+
+
 
   return (
     <motion.div
