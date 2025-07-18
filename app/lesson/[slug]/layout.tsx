@@ -1,23 +1,28 @@
+// app/lesson/[slug]/layout.tsx
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 
-// Define the props type explicitly
-type LayoutProps = {
-  children: ReactNode;
+// ✅ Correct type for generateMetadata
+type GenerateMetadataProps = {
   params: { slug: string };
 };
 
-// ✅ generateMetadata receives params
-export async function generateMetadata({
-  params,
-}: LayoutProps): Promise<Metadata> {
+// ✅ Correct type for layout component
+type LessonLayoutProps = {
+  children: ReactNode;
+};
+
+// ✅ dynamic metadata with params
+export async function generateMetadata(
+  { params }: GenerateMetadataProps
+): Promise<Metadata> {
   return {
     title: params.slug.charAt(0).toUpperCase() + params.slug.slice(1),
     description: `This is the page for ${params.slug}`,
   };
 }
 
-// ✅ Layout component receives children and params
-export default function LessonLayout({ children }: LayoutProps) {
+// ✅ layout component receives only children
+export default function LessonLayout({ children }: LessonLayoutProps) {
   return <div className="p-4">{children}</div>;
 }
